@@ -11,12 +11,12 @@ class _CurrDateState extends State<CurrDate> {
   @override
   void initState() {
     dateTime = DateTime.now();
-    int switchCase = dateTime.weekday;
-    printDate = "";
+    // int switchCase = dateTime.weekday;
+    // printDate = "";
 
-    if ((dateTime.month - 1) < 13 && (dateTime.month - 1) > 0) {
-      if ((dateTime.weekday - 1) < 8 && (dateTime.weekday - 1) > 0) {
-        printDate +=
+    if ((dateTime.month) < 13 && (dateTime.month) > 0) {
+      if ((dateTime.weekday) < 8 && (dateTime.weekday) > 0) {
+        printDate =
             "${day[dateTime.weekday - 1]} \n${dateTime.day} ${month[dateTime.month - 1]}";
       }
     } else {
@@ -39,13 +39,13 @@ class _CurrDateState extends State<CurrDate> {
     'Dec'
   ];
   List day = [
-    "Monday",
-    "Tuesday",
-    "Wednesday",
-    "Thursday",
-    "Friday",
-    "Saturday",
-    "Sunday",
+    "Mon",
+    "Tue",
+    "Wed",
+    "Thu",
+    "Fri",
+    "Sat",
+    "Sun",
   ];
   DateTime dateTime = DateTime.now();
 
@@ -57,11 +57,12 @@ class _CurrDateState extends State<CurrDate> {
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: 30, vertical: 20),
       child: Row(
+        crossAxisAlignment: CrossAxisAlignment.center,
         children: [
           Expanded(
             flex: 2,
             child: Column(
-              // mainAxisAlignment: MainAxisAlignment.start,
+              mainAxisAlignment: MainAxisAlignment.center,
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(

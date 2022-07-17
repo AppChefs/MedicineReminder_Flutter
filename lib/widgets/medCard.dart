@@ -5,7 +5,7 @@ import 'package:medtrack/screens/addMed.dart';
 import 'package:medtrack/utils/medModel.dart';
 
 import 'package:medtrack/utils/dataBaseHelper.dart';
-import 'package:medtrack/widgets/todayCard.dart';
+import 'package:medtrack/utils/todayData.dart';
 
 class MedCard extends StatelessWidget {
   final MedModel item;

@@ -46,7 +46,6 @@ class _AddMedState extends State<AddMed> {
     List<Map<String, dynamic>> timeData =
         await DataBaseHelper.instance.querryID(item.id, 2);
 
-    print(timeData);
     for (int ind = 0; ind < timeData.length; ind++) {
       selectedTime.add(TimeOfDay(
           hour: timeData[ind][DataBaseHelper.doesTime_Hour],

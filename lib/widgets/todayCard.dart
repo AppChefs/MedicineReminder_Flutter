@@ -1,12 +1,22 @@
-import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 
-class TodayCard extends StatelessWidget {
-  const TodayCard({Key? key}) : super(key: key);
+class todayCard extends StatelessWidget {
+  final today_data;
+  todayCard({Key? key, required this.today_data}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    return const Center(
-      child: Text("TOday Card"),
-    );
+    return Container(
+        child: Column(
+      children: [
+        Row(
+          children: [
+            Text(today_data[0]),
+            Text(" at "),
+            Text(today_data[1].hour.toString())
+          ],
+        )
+      ],
+    ));
   }
 }

@@ -9,7 +9,7 @@ import 'package:medtrack/utils/medModel.dart';
 import 'package:medtrack/widgets/currDate.dart';
 import 'package:medtrack/widgets/invCard.dart';
 import 'package:medtrack/utils/invModel.dart';
-import 'package:medtrack/widgets/todayCard.dart';
+import 'package:medtrack/utils/todayData.dart';
 import '../widgets/medCard.dart';
 
 class Home extends StatefulWidget {
@@ -30,9 +30,9 @@ class _HomeState extends State<Home> {
 
   int bottomNavIndex = 1;
   // final invItem = [];
-  // List<MedModel> medItem = [];
+  List<MedModel> medItem = [];
   Map<int, String> id_name = {};
-  final todayItem = [];
+  List todayItem = [];
   // InvModel item = InvModel();
   // List<Map<String, dynamic>> invDB = [];
   // List<Map<String, dynamic>> medDB = [];
@@ -64,7 +64,7 @@ class _HomeState extends State<Home> {
     }
     List<Map<String, dynamic>> medDB =
         await DataBaseHelper.instance.querryAll([], 0);
-    return List.generate(medDB.length, (index) {
+    medItem = List.generate(medDB.length, (index) {
       return MedModel(
         id: medDB[index]["id"],
         startDateD: medDB[index][DataBaseHelper.med_StartDateD],
@@ -79,6 +79,36 @@ class _HomeState extends State<Home> {
         instructions: medDB[index][DataBaseHelper.med_Instructions],
       );
     });
+    await todayData();
+    return medItem;
+  }
+
+  List today_med_id = [];
+  todayData() {
+    today_med_id = [];
+    DateTime today = DateTime.now();
+
+    for (int i = 0; i < medItem.length; i++) {
+      DateTime st_date = DateTime(
+          medItem[i].startDateY, medItem[i].startDateM, medItem[i].startDateD);
+      DateTime ed_date = DateTime(
+          medItem[i].endDateY, medItem[i].endDateM, medItem[i].endDateD);
+      if ((today.isAfter(st_date) || today.isAtSameMomentAs(st_date)) &&
+          (today.isBefore(ed_date) || today.isAtSameMomentAs(ed_date))) {
+        double diff = (today.difference(st_date).inHours / 24);
+        //  % medItem[i].freqDay);
+        double med_today = medItem[i].freqDay == 0
+            ? 0
+            : diff < medItem[i].freqDay
+                ? 0
+                : diff % medItem[i].freqDay;
+
+        if (med_today == 0) {
+          today_med_id.add(medItem[i].id);
+        }
+      }
+    }
+    // setState(() {});
   }
 
   // Future<List<InvModel>> invLoadDB() async {
@@ -255,44 +285,46 @@ class _HomeState extends State<Home> {
                             Expanded(
                                 flex: 10,
                                 child: Container(
-                                  width: double.infinity,
-                                  decoration: const BoxDecoration(
-                                      color: Colors.white,
-                                      borderRadius: BorderRadius.only(
-                                        topLeft: Radius.circular(30),
-                                        topRight: Radius.circular(30),
-                                      )),
-                                  child: todayItem.isEmpty
-                                      ? Column(
-                                          mainAxisAlignment:
-                                              MainAxisAlignment.center,
-                                          crossAxisAlignment:
-                                              CrossAxisAlignment.center,
-                                          children: const [
-                                            Text(
-                                              "WOW no medicines for today",
-                                              style: TextStyle(
-                                                  color: Colors.purple,
-                                                  fontSize: 20,
-                                                  fontWeight: FontWeight.bold),
-                                            ),
-                                            SizedBox(height: 10),
-                                            Text("Doing great !!!",
+                                    width: double.infinity,
+                                    decoration: const BoxDecoration(
+                                        color: Colors.white,
+                                        borderRadius: BorderRadius.only(
+                                          topLeft: Radius.circular(30),
+                                          topRight: Radius.circular(30),
+                                        )),
+                                    child: today_med_id.isEmpty
+                                        ? Column(
+                                            mainAxisAlignment:
+                                                MainAxisAlignment.center,
+                                            crossAxisAlignment:
+                                                CrossAxisAlignment.center,
+                                            children: const [
+                                              Text(
+                                                "WOW no medicines for today",
                                                 style: TextStyle(
                                                     color: Colors.purple,
                                                     fontSize: 20,
                                                     fontWeight:
-                                                        FontWeight.bold))
-                                          ],
-                                        )
-                                      : ListView.builder(
-                                          itemCount: todayItem.length,
-                                          itemBuilder:
-                                              (BuildContext context, index) {
-                                            return const TodayCard();
-                                          },
-                                        ),
-                                ))
+                                                        FontWeight.bold),
+                                              ),
+                                              SizedBox(height: 10),
+                                              Text("Doing great !!!",
+                                                  style: TextStyle(
+                                                      color: Colors.purple,
+                                                      fontSize: 20,
+                                                      fontWeight:
+                                                          FontWeight.bold))
+                                            ],
+                                          )
+                                        : TodayData(today_id: today_med_id)
+                                    // ListView.builder(
+                                    //     itemCount: todayItem.length,
+                                    //     itemBuilder:
+                                    //         (BuildContext context, index) {
+                                    //       return const TodayCard();
+                                    //     },
+                                    //   ),
+                                    ))
                           ],
                         ),
                       )
