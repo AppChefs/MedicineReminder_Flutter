@@ -15,3 +15,9 @@ where you can :
   <img src="app_screen_shots/home.jpg" width="350" title="hover text">
   <img src="app_screen_shots/track.jpg" width="350" alt="accessibility text">
 </p>
+
+![image description](app_screen_shots/track.jpg)
+
+<img src="app_screen_shots/track.jpg" width="128"/>
+
+![My animated logo](app_screen_shots/track.jpg)
