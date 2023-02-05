@@ -23,8 +23,8 @@ class Home extends StatefulWidget {
 class _HomeState extends State<Home> {
   @override
   void initState() {
-    // invLoadDB();
-    // medLoadDB();
+    invLoadDB();
+    medLoadDB();
     super.initState();
   }
 
@@ -87,6 +87,7 @@ class _HomeState extends State<Home> {
   todayData() {
     today_med_id = [];
     DateTime today = DateTime.now();
+    today = DateTime(today.year, today.month, today.day);
 
     for (int i = 0; i < medItem.length; i++) {
       DateTime st_date = DateTime(
@@ -96,7 +97,7 @@ class _HomeState extends State<Home> {
       if ((today.isAfter(st_date) || today.isAtSameMomentAs(st_date)) &&
           (today.isBefore(ed_date) || today.isAtSameMomentAs(ed_date))) {
         double diff = (today.difference(st_date).inHours / 24);
-        //  % medItem[i].freqDay);
+        //   //  % medItem[i].freqDay);
         double med_today = medItem[i].freqDay == 0
             ? 0
             : diff < medItem[i].freqDay
@@ -171,21 +172,13 @@ class _HomeState extends State<Home> {
                 onSelected: (value) {},
                 itemBuilder: (context) => [
                       const PopupMenuItem(
-                        child: Text("Profile"),
+                        child: Text("Settings"),
                         value: 1,
                       ),
                       const PopupMenuItem(
-                        child: Text("Settings"),
+                        child: Text("Share App"),
                         value: 2,
                       ),
-                      const PopupMenuItem(
-                        child: Text("Log out"),
-                        value: 3,
-                      ),
-                      const PopupMenuItem(
-                        child: Text("Share App"),
-                        value: 4,
-                      )
                     ]),
           ],
         ),
@@ -289,8 +282,8 @@ class _HomeState extends State<Home> {
                                     decoration: const BoxDecoration(
                                         color: Colors.white,
                                         borderRadius: BorderRadius.only(
-                                          topLeft: Radius.circular(30),
-                                          topRight: Radius.circular(30),
+                                          topLeft: Radius.circular(20),
+                                          topRight: Radius.circular(20),
                                         )),
                                     child: today_med_id.isEmpty
                                         ? Column(
@@ -316,7 +309,12 @@ class _HomeState extends State<Home> {
                                                           FontWeight.bold))
                                             ],
                                           )
-                                        : TodayData(today_id: today_med_id)
+                                        : Padding(
+                                            padding: const EdgeInsets.fromLTRB(
+                                                0, 10, 0, 0),
+                                            child: TodayData(
+                                                today_id: today_med_id),
+                                          )
                                     // ListView.builder(
                                     //     itemCount: todayItem.length,
                                     //     itemBuilder:
@@ -396,6 +394,11 @@ class _HomeState extends State<Home> {
           onTap: (value) {
             setState(() {
               bottomNavIndex = value;
+              // BY pass
+              if (value == 1) {
+                medLoadDB();
+              }
+              // ( need to check )
             });
           },
           items: const [
