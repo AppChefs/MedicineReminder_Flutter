@@ -9,5 +9,4 @@ where you can :
     - notification and alarm for medicine timings (feature not added yet).
     
     
-![Alt text]([app_screen_shots/home.jpg](https://github.com/AppChefs/MedicineReminder_Flutter/blob/main/app_screen_shots/home.jpg)?raw=true "Home Screen")
-
+![Screenshot](app_screen_shots/home.jpg)
