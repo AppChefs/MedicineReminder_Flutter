@@ -10,3 +10,8 @@ where you can :
     
     
 ![Screenshot](app_screen_shots/home.jpg)
+
+<p align="center">
+  <img src="app_screen_shots/home.jpg" width="350" title="hover text">
+  <img src="app_screen_shots/track.jpg" width="350" alt="accessibility text">
+</p>
